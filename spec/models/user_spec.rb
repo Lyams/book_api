@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  subject { User.new(email: "example@example.com", password_digest: "00000") }
+  subject { build(:user) }
 
   describe 'have attributes' do
     it { is_expected.to respond_to(:email) }
