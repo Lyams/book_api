@@ -40,4 +40,12 @@ RSpec.describe "Api::V1::Users", type: :request do
         expect(response.status).to eq(422)
       end
   end
+
+  describe "DELETE #destroy" do
+    before { user.save }
+    it "should destroy user" do
+      expect { delete api_v1_user_url(user) }.to change { User.count }.by(-1)
+      expect(response.status).to eq 204
+    end
+  end
 end
