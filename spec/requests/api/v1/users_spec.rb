@@ -26,4 +26,18 @@ RSpec.describe "Api::V1::Users", type: :request do
       end
     end
   end
+  describe "PATCH #update" do
+    before { user.save }
+    it "should update user email" do
+      patch api_v1_user_url(user), params: {
+        user: { email: ("AV" + user.email), password: user.password } }
+      expect(response.status).to eq(200)
+    end
+
+      it "should not update user with invalide email" do
+        patch api_v1_user_url(user), params: {
+          user: { email: "aaa.asss", password: "234" } }
+        expect(response.status).to eq(422)
+      end
+  end
 end
