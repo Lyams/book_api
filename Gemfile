@@ -8,6 +8,7 @@ gem "sqlite3", "~> 1.4"
 gem "puma", "~> 5.0"
 gem 'bcrypt', '~> 3.1', '>= 3.1.16'
 gem 'faker', '~> 2.19'
+gem 'fast_jsonapi', '~> 1.5'
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"
 
