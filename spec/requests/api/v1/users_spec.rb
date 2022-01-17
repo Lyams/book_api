@@ -51,6 +51,7 @@ RSpec.describe "Api::V1::Users", type: :request do
 
   describe "DELETE #destroy" do
     before { user.save }
+    let(:product) { build(:product) }
     it "should destroy user" do
       expect { delete api_v1_user_url(user),
                       headers: { Authorization: JsonWebToken.encode(user_id: user.id) }
@@ -59,6 +60,11 @@ RSpec.describe "Api::V1::Users", type: :request do
     end
     it 'should forbid destroy user' do
       expect { delete api_v1_user_url(user) }.not_to change { User.count }
+    end
+    it 'destroy user should destroy linked product' do
+      product.user = user
+      product.save
+      expect{ user.destroy }.to change {Product.count}.by(-1)
     end
   end
 end
