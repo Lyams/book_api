@@ -2,12 +2,18 @@ require 'rails_helper'
 
 RSpec.describe "Api::V1::Users", type: :request do
   let(:user) { build(:user) }
+  
   describe "GET #show" do
+    before {user.save}
+    let(:product) {build(:product, user_id: user.id)}
     it "should show user" do
-      user.save
+      product.save
       get api_v1_user_url(user)
       expect(response).to have_http_status :success
-      expect((JSON::parse response.body)["data"]["attributes"]["email"]).to eq user.email
+      json_response = JSON::parse(self.response.body, symbolize_names: true)
+      expect(json_response.dig(:data, :attributes, :email)).to eq(user.email)
+      expect(json_response.dig(:data, :relationships, :products, :data, 0, :id)).to eq(user.products.first.id.to_s)
+      expect(json_response.dig(:included, 0, :attributes, :title)).to eq(user.products.first.title)
     end
   end
 
