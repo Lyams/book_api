@@ -16,6 +16,8 @@ RSpec.describe Order, type: :model do
   end
 
   describe 'association' do
-    it { is_expected.to belong_to(:user)}
+    it { is_expected.to belong_to(:user) }
+    it { is_expected.to have_many(:placements).dependent(:destroy) }
+    it { is_expected.to have_many(:products).through(:placements) }
   end
 end

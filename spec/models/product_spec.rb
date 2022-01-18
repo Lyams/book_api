@@ -10,6 +10,8 @@ RSpec.describe Product, type: :model do
 
   describe 'association' do
     it { is_expected.to belong_to(:user)}
+    it { is_expected.to have_many(:placements).dependent(:destroy) }
+    it { is_expected.to have_many(:orders).through(:placements) }
   end
 
   describe 'validation' do
