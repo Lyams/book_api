@@ -84,5 +84,16 @@ RSpec.describe "Api::V1::Products", type: :request do
       product.touch
       expect(Product.recent.to_a).to eq([product_keda, product])
     end
+    it "search hash" do
+      search_hash_empty = {keyword: 'tv', min_price: 1000000.0}
+      search_hash = {keyword: 'tv', min_price: 100.0}
+      search_hash_keda = {keyword: 'tv', min_price: 100.0, max_price: 10000.0}
+      search_hash_product = {keyword: 'tv', min_price: 10000.0}
+      expect(Product.search(search_hash_empty)).to be_empty
+      expect(Product.search(search_hash_keda)).to eq([product_keda])
+      expect(Product.search(search_hash_product)).to eq([product])
+      expect(Product.search(search_hash)).to eq([product, product_keda])
+
+    end
   end
 end
