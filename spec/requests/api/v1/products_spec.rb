@@ -61,10 +61,28 @@ RSpec.describe "Api::V1::Products", type: :request do
   end
 
   describe "GET #index" do
-    let(:product) {create :product}
+    let!(:product) {create :product}
+    let!(:product_keda) {create :product_keda}
     it "should show products" do
       get api_v1_products_url
       expect(response).to have_http_status(:success)
+    end
+    it "should filter products by name" do
+      expect(Product.filter_by_title('tv').sort).to eq([product, product_keda])
+      expect(Product.filter_by_title('tv').count).to eq(2)
+      expect(Product.filter_by_title('Mnogo vsyakoy lagi, i dage ligi').count).to eq(0)
+    end
+    it "should filter products by price" do
+      expect(Product.above_or_equal_to_price(6000.0)).to eq([product])
+      expect(Product.above_or_equal_to_price(0.0).count).to eq(Product.count)
+    end
+    it "should filter products by price lower" do
+      expect(Product.below_or_equal_to_price(6000.0)).to eq([product_keda])
+      expect(Product.below_or_equal_to_price(1000000000.0).count).to eq(Product.count)
+    end
+    it "should sort product by most recent" do
+      product.touch
+      expect(Product.recent.to_a).to eq([product_keda, product])
     end
   end
 end
