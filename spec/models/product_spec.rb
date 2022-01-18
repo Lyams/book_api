@@ -8,6 +8,10 @@ RSpec.describe Product, type: :model do
     it {is_expected.to respond_to :title}
   end
 
+  describe 'association' do
+    it { is_expected.to belong_to(:user)}
+  end
+
   describe 'validation' do
     it { is_expected.to validate_presence_of(:price) }
     it { is_expected.to validate_presence_of(:title) }
