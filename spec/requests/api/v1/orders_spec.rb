@@ -3,8 +3,23 @@ require 'rails_helper'
 RSpec.describe "Api::V1::Orders", type: :request do
   let(:order){create :order}
   let(:product){build :product}
+  let(:product_keda){create :product_keda}
   before {product.user = order.user; product.save; order.update(products: [product])}
-  
+
+  describe "POST #create" do
+    before {@order_params = { order: {product_ids: [product.id, product_keda.id], total: 50} }}
+    it "should create order with two products" do
+      expect{ post api_v1_orders_url,
+                   params: @order_params,
+                   headers: { Authorization: JsonWebToken.encode(user_id: order.user_id)}}
+        .to change { Order.count }.by(1)
+      expect(Order.last.products.count).to eq(2)
+    end
+    it "should forbid create order for unlogged" do
+      expect{ post api_v1_orders_url, params: @order_params}.not_to change { Order.count }
+    end
+  end
+
   describe "GET #show" do
     it 'should show order' do
       get api_v1_order_url(order),

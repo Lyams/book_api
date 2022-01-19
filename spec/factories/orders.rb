@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :order do
     association :user, factory: :user
-    total { 9.99 }
+    total { 0.00 }
   end
 end
