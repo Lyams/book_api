@@ -19,9 +19,6 @@ RSpec.describe Product, type: :model do
     it { is_expected.to validate_presence_of(:title) }
     it { is_expected.to validate_presence_of(:user_id) }
     it { is_expected.to be_valid }
-    it 'should have a positive price' do
-      subject.price = -1
-      expect(subject).not_to be_valid
-    end
+    it { is_expected.to validate_numericality_of(:price).is_greater_than_or_equal_to(0) }
   end
 end
