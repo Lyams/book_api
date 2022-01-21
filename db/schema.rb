@@ -10,19 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_21_031823) do
+ActiveRecord::Schema.define(version: 2022_01_21_083908) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "orders", force: :cascade do |t|
-    t.integer "user_id", null: false
+    t.bigint "user_id", null: false
     t.decimal "total", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_orders_on_user_id"
+    t.check_constraint "total >= 0::numeric", name: "totalchk"
   end
 
   create_table "placements", force: :cascade do |t|
-    t.integer "order_id", null: false
-    t.integer "product_id", null: false
+    t.bigint "order_id", null: false
+    t.bigint "product_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "quantity", default: 0
@@ -34,11 +38,12 @@ ActiveRecord::Schema.define(version: 2022_01_21_031823) do
     t.string "title"
     t.decimal "price"
     t.boolean "published"
-    t.integer "user_id", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "quantity", default: 0
     t.index ["user_id"], name: "index_products_on_user_id"
+    t.check_constraint "price >= 0::numeric", name: "pricechk"
   end
 
   create_table "users", force: :cascade do |t|
@@ -46,7 +51,7 @@ ActiveRecord::Schema.define(version: 2022_01_21_031823) do
     t.string "password_digest", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index "lower(email)", name: "index_users_on_lowercase_email", unique: true
+    t.index "lower((email)::text)", name: "index_users_on_lowercase_email", unique: true
   end
 
   add_foreign_key "orders", "users"
