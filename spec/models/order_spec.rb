@@ -21,14 +21,22 @@ RSpec.describe Order, type: :model do
     it { is_expected.to have_many(:products).through(:placements) }
   end
 
-  context "Should set total" do
+  context "" do
     let(:product){build :product}
     let(:product_keda){build :product_keda}
-    it "" do
+    it "Should set total" do
       order1 = Order.new(user: order.user)
       order1.products.push(product, product_keda)
       order1.save
       expect(order1.total).to eq (product.price + product_keda.price)
     end
+
+    # it "builds 2 placements for the order" do
+    #   order1 = Order.new(user: order.user)
+    #   order1.build_placements_with_product_ids_and_quantities [
+    #       { product_id: product.id, quantity: 2},
+    #       { product_id: product_keda.id, quantity: 3},]
+    #   expect{ order1.save }.to change { Placement.count }.by(2)
+    # end
   end
 end

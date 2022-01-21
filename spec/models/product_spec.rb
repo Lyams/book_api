@@ -6,6 +6,7 @@ RSpec.describe Product, type: :model do
     it {is_expected.to respond_to :price}
     it {is_expected.to respond_to :published}
     it {is_expected.to respond_to :title}
+    it {is_expected.to respond_to :quantity}
   end
 
   describe 'association' do
@@ -18,7 +19,9 @@ RSpec.describe Product, type: :model do
     it { is_expected.to validate_presence_of(:price) }
     it { is_expected.to validate_presence_of(:title) }
     it { is_expected.to validate_presence_of(:user_id) }
+    it { is_expected.to validate_presence_of(:quantity) }
     it { is_expected.to be_valid }
     it { is_expected.to validate_numericality_of(:price).is_greater_than_or_equal_to(0) }
+    it { is_expected.to validate_numericality_of(:quantity).is_greater_than_or_equal_to(0) }
   end
 end
