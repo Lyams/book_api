@@ -53,6 +53,11 @@ RSpec.describe "Api::V1::Orders", type: :request do
       expect(response).to have_http_status(:success)
       json_response = JSON.parse(response.body)
       expect(json_response['data'].count).to eq(order.user.orders.count)
+      json_response = JSON.parse(response.body, symbolize_names: true)
+      expect(json_response.dig(:links, :first)).not_to be_nil
+      expect(json_response.dig(:links, :last)).not_to be_nil
+      expect(json_response.dig(:links, :prev)).not_to be_nil
+      expect(json_response.dig(:links, :next)).not_to be_nil
     end
   end
 end
