@@ -8,12 +8,16 @@
 **Bash-запросы для промежуточного использования ("троганья"):**
 
 Получение токена:
+```bash
 curl --header "Content-Type: application/json" --request POST --data ' {"user": {"email": "lyamsh@yandex.ru","password": "local123"}}' http://127.0.0.1:3000/api/v1/tokens
-
-{ order: { product_ids_and_quantities: [ { product_id: 1, quantity: 2 },{ product_id: 3, quantity: 3 } ] } }
+```
 
 Пример создания товара:
+```bash
 curl --header "Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo0LCJleHAiOjE2NDI5NjYzNDV9.M8Q3C4hvV-jMffQccYHuj1eOa65csKPP4ziVO4RKJAw" http://localhost:3000/api/v1/products --request POST --data '{"product":{"price":100,"title":"Fignya","published":true,"quantity":100 }}' -H "Content-type: application/json"
+```
 
 Пример создания заказа:
+```bash
 curl --header "Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo0LCJleHAiOjE2NDI5NjYzNDV9.M8Q3C4hvV-jMffQccYHuj1eOa65csKPP4ziVO4RKJAw"  --request POST --data '{ "order": { "product_ids_and_quantities": [ { "product_id": "1", "quantity": "2" },{ "product_id": "3", "quantity": "3" } ] } }' http://127.0.0.1:3000/api/v1/orders -H "Content-type: application/json"
+```
