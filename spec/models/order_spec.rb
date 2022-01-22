@@ -22,14 +22,19 @@ RSpec.describe Order, type: :model do
   end
 
   context "" do
-    let(:product){build :product}
-    let(:product_keda){build :product_keda}
+    let(:product){create :product, user: order.user}
+    let(:product_keda){create :product_keda}
     it "Should set total" do
       order1 = Order.new(user: order.user)
-      order1.products.push(product, product_keda)
-      order1.save
-      expect(order1.total).to eq (product.price + product_keda.price)
+      order1.placements = [Placement.new(product_id: product.id, quantity: 2),
+                           Placement.new(product_id: product_keda.id, quantity: 1)]
+      order1.set_total!
+      expect(order1.total).to eq (product.price * 2 + product_keda.price * 1)
     end
+    # it "an order should command not too much product than available" do
+    #   order.placements << Placement.new(product_id: product.id, quantity: (1 + product.quantity))
+    #   expect(order).not_to be_valid
+    # end
 
     # it "builds 2 placements for the order" do
     #   order1 = Order.new(user: order.user)
