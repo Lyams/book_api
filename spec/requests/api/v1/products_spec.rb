@@ -80,6 +80,11 @@ RSpec.describe "Api::V1::Products", type: :request do
     it "should show products" do
       get api_v1_products_url
       expect(response).to have_http_status(:success)
+      json_response = JSON.parse(response.body, symbolize_names: true)
+      expect(json_response.dig(:links, :first)).not_to be_nil
+      expect(json_response.dig(:links, :last)).not_to be_nil
+      expect(json_response.dig(:links, :prev)).not_to be_nil
+      expect(json_response.dig(:links, :next)).not_to be_nil
     end
     it "should filter products by name" do
       expect(Product.filter_by_title('tv').sort).to eq([product, product_keda])
