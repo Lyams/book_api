@@ -3,7 +3,7 @@
 # README
 В процессе чтения книги Api Rails 6 by Alexandre Rousesau.
 По книге в основном иду в этом проекте, но с Rspec и немного
-больше тестов. Кроме того прикрутил CI и Codecov.
+больше тестов, ограничений в семе БД, posgresql, и валидаций. Кроме того прикрутил CI и Codecov.
 
 Bash-запрос для промежуточного использования ("троганья"):
 curl --header "Content-Type: application/json" --request POST --data ' {"user": {"email": "www@em.em","password": "111"}}' http://127.0.0.1:3000/api/v1/users
