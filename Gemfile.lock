@@ -66,6 +66,8 @@ GEM
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
       tzinfo (~> 2.0)
+    addressable (2.8.0)
+      public_suffix (>= 2.0.2, < 5.0)
     bcrypt (3.1.16)
     bootsnap (1.10.2)
       msgpack (~> 1.2)
@@ -115,6 +117,8 @@ GEM
       activerecord
       kaminari-core (= 1.2.2)
     kaminari-core (1.2.2)
+    launchy (2.5.0)
+      addressable (~> 2.7)
     loofah (2.13.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -124,7 +128,7 @@ GEM
     method_source (1.0.0)
     mini_mime (1.1.2)
     minitest (5.15.0)
-    msgpack (1.4.3)
+    msgpack (1.4.4)
     net-imap (0.2.3)
       digest
       net-protocol
@@ -143,7 +147,12 @@ GEM
     nio4r (2.5.8)
     nokogiri (1.13.1-x86_64-linux)
       racc (~> 1.4)
+    open_mailer (0.1.2)
+      launchy (~> 2.5)
+      mail (~> 2.5)
+      rails (> 5)
     pg (1.2.3)
+    public_suffix (4.0.6)
     puma (5.5.2)
       nio4r (~> 2.0)
     racc (1.6.0)
@@ -230,6 +239,7 @@ DEPENDENCIES
   fast_jsonapi (~> 1.5)
   jwt (~> 2.3)
   kaminari (~> 1.2, >= 1.2.2)
+  open_mailer (~> 0.1.2)
   pg
   puma (~> 5.0)
   rack-cors
