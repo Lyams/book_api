@@ -10,6 +10,7 @@ gem 'bcrypt', '~> 3.1', '>= 3.1.16'
 gem 'faker', '~> 2.19'
 gem 'fast_jsonapi', '~> 1.5'
 gem 'kaminari', '~> 1.2', '>= 1.2.2'
+gem 'good_job'
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"
 

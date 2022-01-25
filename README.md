@@ -2,8 +2,9 @@
 [![Test Coverage](https://codecov.io/gh/lyams/book_api/graph/badge.svg)](https://codecov.io/gh/lyams/book_api)
 # README
 В процессе чтения книги Api Rails 6 by Alexandre Rousesau.
-По книге в основном иду в этом проекте, но с Rspec и немного
+По книге в основном иду в этом проекте (но Rails 7 и Ruby 3), но с Rspec (в книге немного минитеста) и
 больше тестов, ограничений в семе БД, posgresql, и валидаций. Кроме того прикрутил CI и Codecov.
+Добавил GoodJob для отложенной асинхронной отправки писем.
 
 **Bash-запросы для промежуточного использования ("троганья"):**
 
