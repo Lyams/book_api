@@ -21,7 +21,14 @@ RSpec.describe Order, type: :model do
     it { is_expected.to have_many(:products).through(:placements) }
   end
 
-  context "" do
+  describe 'database: column specification' do
+    it { should have_db_column(:id).of_type(:integer).with_options(primary: true, null: false) }
+    it { should have_db_column(:total).of_type(:decimal).with_options(null: false) }
+    it { should have_db_index(["user_id"]) }
+    it { should have_db_column(:user_id).of_type(:integer).with_options(null: false) }
+  end
+
+  context "Calculate total" do
     let(:product){create :product, user: order.user}
     let(:product_keda){create :product_keda}
     it "Should set total" do
