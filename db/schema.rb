@@ -61,19 +61,19 @@ ActiveRecord::Schema.define(version: 2022_01_24_233856) do
     t.bigint "product_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "quantity", default: 0
+    t.integer "quantity", default: 0, null: false
     t.index ["order_id"], name: "index_placements_on_order_id"
     t.index ["product_id"], name: "index_placements_on_product_id"
   end
 
   create_table "products", force: :cascade do |t|
-    t.string "title"
-    t.decimal "price"
-    t.boolean "published"
+    t.string "title", null: false
+    t.decimal "price", default: "0.0", null: false
+    t.boolean "published", default: false, null: false
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "quantity", default: 0
+    t.integer "quantity", default: 0, null: false
     t.index ["user_id"], name: "index_products_on_user_id"
     t.check_constraint "price >= 0::numeric", name: "pricechk"
   end

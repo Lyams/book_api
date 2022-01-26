@@ -14,4 +14,12 @@ RSpec.describe Placement, type: :model do
       expect(init - product.quantity ).to eq(- placement.quantity)
     end
   end
+  describe 'database: column specification' do
+    it { should have_db_column(:id).of_type(:integer).with_options(primary: true, null: false) }
+    it { should have_db_column(:quantity).of_type(:integer).with_options(default: 0, null: false) }
+    it { should have_db_index(["order_id"]) }
+    it { should have_db_column(:order_id).of_type(:integer).with_options(null: false) }
+    it { should have_db_index(["product_id"]) }
+    it { should have_db_column(:product_id).of_type(:integer).with_options(null: false) }
+  end
 end
