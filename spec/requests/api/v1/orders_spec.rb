@@ -9,20 +9,20 @@ RSpec.describe "Api::V1::Orders", type: :request do
   describe "POST #create" do
     before { @order_params = { order:
                                  { product_ids_and_quantities:
-                                     [ { product_id: product.id, quantity: 2 },
-                                     { product_id: product_keda.id, quantity: 3 } ]
+                                     [{ product_id: product.id, quantity: 2 },
+                                      { product_id: product_keda.id, quantity: 3 }]
                                  } } }
     it 'should create order with two products and placements' do
-      expect{ post api_v1_orders_url,
-                   params: @order_params,
-                   headers: { Authorization: JsonWebToken.encode(user_id: order.user_id)}}
+      expect { post api_v1_orders_url,
+                    params: @order_params,
+                    headers: { Authorization: JsonWebToken.encode(user_id: order.user_id) } }
         .to change { Order.count }.by(1)
       expect(Order.last.products.count).to eq(2)
       expect(Order.last.placements.count).to eq(2)
       expect(response).to have_http_status(:created)
     end
     it "should forbid create order for unlogged" do
-      expect{ post api_v1_orders_url, params: @order_params}.not_to change { Order.count }
+      expect { post api_v1_orders_url, params: @order_params }.not_to change { Order.count }
       expect(response).to have_http_status(:forbidden)
     end
 
@@ -31,7 +31,7 @@ RSpec.describe "Api::V1::Orders", type: :request do
   describe "GET #show" do
     it 'should show order' do
       get api_v1_order_url(order),
-          headers: { Authorization: JsonWebToken.encode(user_id: order.user_id)}, as: :json
+          headers: { Authorization: JsonWebToken.encode(user_id: order.user_id) }, as: :json
       expect(response).to have_http_status(:success)
       json_response = JSON.parse(response.body)
       include_product_attr = json_response['included'][0]['attributes']
@@ -49,7 +49,7 @@ RSpec.describe "Api::V1::Orders", type: :request do
       expect(response).to have_http_status(:forbidden)
     end
     it "should show orders" do
-      get api_v1_orders_url, headers: { Authorization: JsonWebToken.encode(user_id: order.user_id)}, as: :json
+      get api_v1_orders_url, headers: { Authorization: JsonWebToken.encode(user_id: order.user_id) }, as: :json
       expect(response).to have_http_status(:success)
       json_response = JSON.parse(response.body)
       expect(json_response['data'].count).to eq(order.user.orders.count)

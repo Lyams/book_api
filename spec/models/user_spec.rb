@@ -9,8 +9,8 @@ RSpec.describe User, type: :model do
   end
 
   describe 'association' do
-    it { is_expected.to have_many(:orders).dependent(:destroy)}
-    it { is_expected.to have_many(:products).dependent(:destroy)}
+    it { is_expected.to have_many(:orders).dependent(:destroy) }
+    it { is_expected.to have_many(:products).dependent(:destroy) }
   end
 
   describe 'validation' do
@@ -21,7 +21,7 @@ RSpec.describe User, type: :model do
   end
 
   describe 'database: column specification' do
-    it { should have_db_column(:id).of_type(:integer).with_options(primary: true)  }
+    it { should have_db_column(:id).of_type(:integer).with_options(primary: true) }
     it { should have_db_column(:id).with_options(null: false) }
     it { should have_db_column(:email).of_type(:string).with_options(null: false) }
     it { should have_db_index("lower((email)::text)").unique(true) }

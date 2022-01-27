@@ -9,7 +9,7 @@ class Api::V1::OrdersController < ApplicationController
       OrderMailer.send_confirmation(order).deliver_later
       render json: order, status: :created # 201
     else
-      render json: { errors: order.errors}, status: :unprocessable_entity # 422
+      render json: { errors: order.errors }, status: :unprocessable_entity # 422
     end
   end
 
@@ -30,6 +30,7 @@ class Api::V1::OrdersController < ApplicationController
   end
 
   private
+
   def order_params
     params.require(:order).permit(product_ids_and_quantities: [:product_id, :quantity])
   end

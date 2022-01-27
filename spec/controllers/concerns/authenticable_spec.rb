@@ -1,5 +1,6 @@
 require 'spec_helper'
 require './app/controllers/concerns/authenticable.rb'
+
 class MockController
   include Authenticable
   attr_accessor :request
