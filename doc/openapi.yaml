@@ -1,0 +1,1084 @@
+---
+openapi: 3.0.3
+info:
+  title: book_api
+  version: 1.0.0
+servers: []
+paths:
+  "/api/v1/orders":
+    post:
+      summary: create
+      tags:
+      - Api::V1::Order
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                order:
+                  type: object
+                  properties:
+                    product_ids_and_quantities:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          product_id:
+                            type: string
+                          quantity:
+                            type: string
+            example:
+              order:
+                product_ids_and_quantities:
+                - product_id: '26'
+                  quantity: '2'
+                - product_id: '27'
+                  quantity: '3'
+      responses:
+        '201':
+          description: should create order with two products and placements
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  user_id:
+                    type: integer
+                  total:
+                    type: string
+                  created_at:
+                    type: string
+                  updated_at:
+                    type: string
+              example:
+                id: 6
+                user_id: 29
+                total: '43000.0'
+                created_at: '2022-02-01T05:14:40.470Z'
+                updated_at: '2022-02-01T05:14:40.475Z'
+        '403':
+          description: should forbid create order for unlogged
+          content:
+            text/html:
+              schema:
+                type: string
+              example: ''
+    get:
+      summary: index
+      tags:
+      - Api::V1::Order
+      responses:
+        '403':
+          description: should forbid orders for unlogged
+          content:
+            text/html:
+              schema:
+                type: string
+              example: ''
+        '200':
+          description: should show orders
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        type:
+                          type: string
+                        relationships:
+                          type: object
+                          properties:
+                            user:
+                              type: object
+                              properties:
+                                data:
+                                  type: object
+                                  properties:
+                                    id:
+                                      type: string
+                                    type:
+                                      type: string
+                            products:
+                              type: object
+                              properties:
+                                data:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      id:
+                                        type: string
+                                      type:
+                                        type: string
+                  links:
+                    type: object
+                    properties:
+                      first:
+                        type: string
+                      last:
+                        type: string
+                      prev:
+                        type: string
+                      next:
+                        type: string
+              example:
+                data:
+                - id: '11'
+                  type: order
+                  relationships:
+                    user:
+                      data:
+                        id: '36'
+                        type: user
+                    products:
+                      data:
+                      - id: '33'
+                        type: product
+                links:
+                  first: "/api/v1/orders?page=1"
+                  last: "/api/v1/orders?page=1"
+                  prev: "/api/v1/orders"
+                  next: "/api/v1/orders"
+  "/api/v1/orders/{id}":
+    get:
+      summary: show
+      tags:
+      - Api::V1::Order
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: 8
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: 9
+      responses:
+        '200':
+          description: should show order
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      type:
+                        type: string
+                      relationships:
+                        type: object
+                        properties:
+                          user:
+                            type: object
+                            properties:
+                              data:
+                                type: object
+                                properties:
+                                  id:
+                                    type: string
+                                  type:
+                                    type: string
+                          products:
+                            type: object
+                            properties:
+                              data:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    id:
+                                      type: string
+                                    type:
+                                      type: string
+                  included:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        type:
+                          type: string
+                        attributes:
+                          type: object
+                          properties:
+                            title:
+                              type: string
+                            price:
+                              type: string
+                            published:
+                              type: boolean
+                        relationships:
+                          type: object
+                          properties:
+                            user:
+                              type: object
+                              properties:
+                                data:
+                                  type: object
+                                  properties:
+                                    id:
+                                      type: string
+                                    type:
+                                      type: string
+              example:
+                data:
+                  id: '8'
+                  type: order
+                  relationships:
+                    user:
+                      data:
+                        id: '33'
+                        type: user
+                    products:
+                      data:
+                      - id: '30'
+                        type: product
+                included:
+                - id: '30'
+                  type: product
+                  attributes:
+                    title: TV LG
+                    price: '14000.0'
+                    published: false
+                  relationships:
+                    user:
+                      data:
+                        id: '33'
+                        type: user
+        '403':
+          description: should forbid show order
+          content:
+            text/html:
+              schema:
+                type: string
+              example: ''
+  "/api/v1/products/{id}":
+    delete:
+      summary: destroy
+      tags:
+      - Api::V1::Product
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: 34
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: 35
+      responses:
+        '204':
+          description: should destroy a product
+          content:
+            '':
+              schema:
+                type: string
+              example: ''
+        '403':
+          description: should forbid destroy a product
+          content:
+            text/html:
+              schema:
+                type: string
+              example: ''
+    patch:
+      summary: update
+      tags:
+      - Api::V1::Product
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: 36
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: 37
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: 38
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                product:
+                  type: object
+                  properties:
+                    title:
+                      type: string
+                      nullable: true
+            example:
+              product:
+                title: GL VT
+      responses:
+        '200':
+          description: should update a product
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      type:
+                        type: string
+                      attributes:
+                        type: object
+                        properties:
+                          title:
+                            type: string
+                          price:
+                            type: string
+                          published:
+                            type: boolean
+                      relationships:
+                        type: object
+                        properties:
+                          user:
+                            type: object
+                            properties:
+                              data:
+                                type: object
+                                properties:
+                                  id:
+                                    type: string
+                                  type:
+                                    type: string
+              example:
+                data:
+                  id: '36'
+                  type: product
+                  attributes:
+                    title: GL VT
+                    price: '14000.0'
+                    published: false
+                  relationships:
+                    user:
+                      data:
+                        id: '40'
+                        type: user
+        '403':
+          description: should forbid update a product
+          content:
+            text/html:
+              schema:
+                type: string
+              example: ''
+        '422':
+          description: errors update product
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  title:
+                    type: array
+                    items:
+                      type: string
+              example:
+                title:
+                - can't be blank
+    get:
+      summary: show
+      tags:
+      - Api::V1::Product
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: 40
+      responses:
+        '200':
+          description: should show product
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      type:
+                        type: string
+                      attributes:
+                        type: object
+                        properties:
+                          title:
+                            type: string
+                          price:
+                            type: string
+                          published:
+                            type: boolean
+                      relationships:
+                        type: object
+                        properties:
+                          user:
+                            type: object
+                            properties:
+                              data:
+                                type: object
+                                properties:
+                                  id:
+                                    type: string
+                                  type:
+                                    type: string
+                  included:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        type:
+                          type: string
+                        attributes:
+                          type: object
+                          properties:
+                            email:
+                              type: string
+                        relationships:
+                          type: object
+                          properties:
+                            products:
+                              type: object
+                              properties:
+                                data:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      id:
+                                        type: string
+                                      type:
+                                        type: string
+              example:
+                data:
+                  id: '40'
+                  type: product
+                  attributes:
+                    title: TV LG
+                    price: '14000.0'
+                    published: false
+                  relationships:
+                    user:
+                      data:
+                        id: '46'
+                        type: user
+                included:
+                - id: '46'
+                  type: user
+                  attributes:
+                    email: aaa@aaa.com
+                  relationships:
+                    products:
+                      data:
+                      - id: '40'
+                        type: product
+  "/api/v1/products":
+    post:
+      summary: create
+      tags:
+      - Api::V1::Product
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                product:
+                  type: object
+                  properties:
+                    title:
+                      type: string
+                    price:
+                      type: string
+                    published:
+                      type: string
+            example:
+              product:
+                title: TV LG
+                price: '14000.0'
+                published: 'false'
+      responses:
+        '201':
+          description: should create a product
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      type:
+                        type: string
+                      attributes:
+                        type: object
+                        properties:
+                          title:
+                            type: string
+                          price:
+                            type: string
+                          published:
+                            type: boolean
+                      relationships:
+                        type: object
+                        properties:
+                          user:
+                            type: object
+                            properties:
+                              data:
+                                type: object
+                                properties:
+                                  id:
+                                    type: string
+                                  type:
+                                    type: string
+              example:
+                data:
+                  id: '39'
+                  type: product
+                  attributes:
+                    title: TV LG
+                    price: '14000.0'
+                    published: false
+                  relationships:
+                    user:
+                      data:
+                        id: '44'
+                        type: user
+        '422':
+          description: should errors create a product
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      price:
+                        type: array
+                        items:
+                          type: string
+              example:
+                errors:
+                  price:
+                  - must be greater than or equal to 0
+    get:
+      summary: index
+      tags:
+      - Api::V1::Product
+      responses:
+        '200':
+          description: should show products
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        type:
+                          type: string
+                        attributes:
+                          type: object
+                          properties:
+                            title:
+                              type: string
+                            price:
+                              type: string
+                            published:
+                              type: boolean
+                        relationships:
+                          type: object
+                          properties:
+                            user:
+                              type: object
+                              properties:
+                                data:
+                                  type: object
+                                  properties:
+                                    id:
+                                      type: string
+                                    type:
+                                      type: string
+                  included:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        type:
+                          type: string
+                        attributes:
+                          type: object
+                          properties:
+                            email:
+                              type: string
+                        relationships:
+                          type: object
+                          properties:
+                            products:
+                              type: object
+                              properties:
+                                data:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      id:
+                                        type: string
+                                      type:
+                                        type: string
+                  links:
+                    type: object
+                    properties:
+                      first:
+                        type: string
+                      last:
+                        type: string
+                      prev:
+                        type: string
+                      next:
+                        type: string
+              example:
+                data:
+                - id: '41'
+                  type: product
+                  attributes:
+                    title: TV LG
+                    price: '14000.0'
+                    published: false
+                  relationships:
+                    user:
+                      data:
+                        id: '47'
+                        type: user
+                - id: '42'
+                  type: product
+                  attributes:
+                    title: Kedi novie kak po tv
+                    price: '5000.0'
+                    published: false
+                  relationships:
+                    user:
+                      data:
+                        id: '48'
+                        type: user
+                included:
+                - id: '47'
+                  type: user
+                  attributes:
+                    email: aaa@aaa.com
+                  relationships:
+                    products:
+                      data:
+                      - id: '41'
+                        type: product
+                - id: '48'
+                  type: user
+                  attributes:
+                    email: bbb@bbb.com
+                  relationships:
+                    products:
+                      data:
+                      - id: '42'
+                        type: product
+                links:
+                  first: "/api/v1/products?page=1"
+                  last: "/api/v1/products?page=1"
+                  prev: "/api/v1/products"
+                  next: "/api/v1/products"
+  "/api/v1/tokens":
+    post:
+      summary: create
+      tags:
+      - Api::V1::Token
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: object
+                  properties:
+                    email:
+                      type: string
+                    password:
+                      type: string
+            example:
+              user:
+                email: aaa@aaa.com
+                password: 1234567aBc
+      responses:
+        '200':
+          description: should get JWT token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                  email:
+                    type: string
+              example:
+                token: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo1OSwiZXhwIjoxNjQzNzc4ODgxfQ.nckMLeOhgCXYBA0hTrnSvgdwhusX51hApCnRYmRpSIg
+                email: aaa@aaa.com
+        '401':
+          description: should not get JWT token
+  "/api/v1/users/{id}":
+    get:
+      summary: show
+      tags:
+      - Api::V1::User
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: 61
+      responses:
+        '200':
+          description: should show user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      type:
+                        type: string
+                      attributes:
+                        type: object
+                        properties:
+                          email:
+                            type: string
+                      relationships:
+                        type: object
+                        properties:
+                          products:
+                            type: object
+                            properties:
+                              data:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    id:
+                                      type: string
+                                    type:
+                                      type: string
+                  included:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        type:
+                          type: string
+                        attributes:
+                          type: object
+                          properties:
+                            title:
+                              type: string
+                            price:
+                              type: string
+                            published:
+                              type: boolean
+                        relationships:
+                          type: object
+                          properties:
+                            user:
+                              type: object
+                              properties:
+                                data:
+                                  type: object
+                                  properties:
+                                    id:
+                                      type: string
+                                    type:
+                                      type: string
+              example:
+                data:
+                  id: '61'
+                  type: user
+                  attributes:
+                    email: aaa@aaa.com
+                  relationships:
+                    products:
+                      data:
+                      - id: '53'
+                        type: product
+                included:
+                - id: '53'
+                  type: product
+                  attributes:
+                    title: TV LG
+                    price: '14000.0'
+                    published: false
+                  relationships:
+                    user:
+                      data:
+                        id: '61'
+                        type: user
+    patch:
+      summary: update
+      tags:
+      - Api::V1::User
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: 64
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: 65
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: 66
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: object
+                  properties:
+                    email:
+                      type: string
+                    password:
+                      type: string
+            example:
+              user:
+                email: AVaaa@aaa.com
+                password: 1234567aBc
+      responses:
+        '200':
+          description: should update user email
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      type:
+                        type: string
+                      attributes:
+                        type: object
+                        properties:
+                          email:
+                            type: string
+                      relationships:
+                        type: object
+                        properties:
+                          products:
+                            type: object
+                            properties:
+                              data:
+                                type: array
+                                items:
+                                  nullable: true
+              example:
+                data:
+                  id: '64'
+                  type: user
+                  attributes:
+                    email: AVaaa@aaa.com
+                  relationships:
+                    products:
+                      data: []
+        '403':
+          description: should forbid update user
+          content:
+            text/html:
+              schema:
+                type: string
+              example: ''
+        '422':
+          description: should not update user with invalide email
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  email:
+                    type: array
+                    items:
+                      type: string
+              example:
+                email:
+                - is invalid
+    delete:
+      summary: destroy
+      tags:
+      - Api::V1::User
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: 67
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: 68
+      responses:
+        '204':
+          description: should destroy user
+          content:
+            '':
+              schema:
+                type: string
+              example: ''
+        '403':
+          description: should forbid destroy user
+          content:
+            text/html:
+              schema:
+                type: string
+              example: ''
+  "/api/v1/users":
+    post:
+      summary: create
+      tags:
+      - Api::V1::User
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: object
+                  properties:
+                    email:
+                      type: string
+                    password:
+                      type: string
+            example:
+              user:
+                email: aaa@aaa.com
+                password: 1234567aBc
+      responses:
+        '201':
+          description: should create user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      type:
+                        type: string
+                      attributes:
+                        type: object
+                        properties:
+                          email:
+                            type: string
+                      relationships:
+                        type: object
+                        properties:
+                          products:
+                            type: object
+                            properties:
+                              data:
+                                type: array
+                                items:
+                                  nullable: true
+              example:
+                data:
+                  id: '62'
+                  type: user
+                  attributes:
+                    email: aaa@aaa.com
+                  relationships:
+                    products:
+                      data: []
+        '422':
+          description: should not create user with taken email
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  email:
+                    type: array
+                    items:
+                      type: string
+              example:
+                email:
+                - has already been taken
