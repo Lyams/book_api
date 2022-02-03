@@ -11,6 +11,7 @@ gem 'faker', '~> 2.19'
 gem 'fast_jsonapi', '~> 1.5'
 gem 'kaminari', '~> 1.2', '>= 1.2.2'
 gem 'good_job'
+gem 'valid_email2', '~> 4.0', '>= 4.0.1'
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"
 
