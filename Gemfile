@@ -42,6 +42,8 @@ group :development, :test do
   # Security tools
   gem 'brakeman', '~> 5.2', '>= 5.2.1'
   gem 'bundler-audit', '~> 0.9.0.1'
+  # Linter
+  gem 'rubocop', '~> 1.25', '>= 1.25.1'
 end
 
 group :development do
