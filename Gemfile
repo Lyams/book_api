@@ -39,6 +39,9 @@ group :development, :test do
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
   gem 'factory_bot_rails', '~> 6.2'
   gem 'rspec-rails', '~> 5.0', '>= 5.0.2'
+  # Security tools
+  gem 'brakeman', '~> 5.2', '>= 5.2.1'
+  gem 'bundler-audit', '~> 0.9.0.1'
 end
 
 group :development do

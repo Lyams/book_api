@@ -24,6 +24,11 @@ RSpec.configure do |config|
     DatabaseCleaner.clean_with(:truncation)
   end
 
+  config.before(:each) do
+    allow_any_instance_of(ValidEmail2::Address).to receive(:valid_mx?).and_return(true)
+    allow_any_instance_of(ValidEmail2::Address).to receive(:valid_strict_mx?).and_return(true)
+  end
+
   config.around(:each) do |example|
     DatabaseCleaner.cleaning do
       example.run

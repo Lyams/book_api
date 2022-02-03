@@ -58,3 +58,7 @@ jobs:
           RAILS_ENV: test
         run: |
           bundle exec rails spec
+      - name: Security audit dependencies
+        run: bundle exec bundle audit --update
+      - name: Security audit application code
+        run: bundle exec brakeman -q -w1
