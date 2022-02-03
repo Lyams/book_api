@@ -1,7 +1,10 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Product, type: :model do
   subject { create :product }
+
   describe 'have attributes' do
     it { is_expected.to respond_to :price }
     it { is_expected.to respond_to :published }
@@ -26,12 +29,12 @@ RSpec.describe Product, type: :model do
   end
 
   describe 'database: column specification' do
-    it { should have_db_column(:id).of_type(:integer).with_options(primary: true, null: false) }
-    it { should have_db_column(:quantity).of_type(:integer).with_options(default: 0, null: false) }
-    it { should have_db_column(:title).of_type(:string).with_options(null: false) }
-    it { should have_db_column(:price).of_type(:decimal).with_options(default: 0.0, null: false) }
-    it { should have_db_column(:published).of_type(:boolean).with_options(default: false, null: false) }
-    it { should have_db_index(["user_id"]) }
-    it { should have_db_column(:user_id).of_type(:integer).with_options(null: false) }
+    it { is_expected.to have_db_column(:id).of_type(:integer).with_options(primary: true, null: false) }
+    it { is_expected.to have_db_column(:quantity).of_type(:integer).with_options(default: 0, null: false) }
+    it { is_expected.to have_db_column(:title).of_type(:string).with_options(null: false) }
+    it { is_expected.to have_db_column(:price).of_type(:decimal).with_options(default: 0.0, null: false) }
+    it { is_expected.to have_db_column(:published).of_type(:boolean).with_options(default: false, null: false) }
+    it { is_expected.to have_db_index(['user_id']) }
+    it { is_expected.to have_db_column(:user_id).of_type(:integer).with_options(null: false) }
   end
 end

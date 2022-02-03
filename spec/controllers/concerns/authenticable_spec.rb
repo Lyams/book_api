@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
-require './app/controllers/concerns/authenticable.rb'
+require './app/controllers/concerns/authenticable'
 
 class MockController
   include Authenticable
@@ -17,11 +19,11 @@ RSpec.describe Authenticable do
 
   it 'ahould get user from Authorization token' do
     authentication.request.headers['Authorization'] = JsonWebToken.encode(user_id: user.id)
-    expect(authentication.current_user).to_not be_nil
+    expect(authentication.current_user).not_to be_nil
     expect(user.id).to eq(authentication.current_user.id)
   end
 
-  it 'should not get user from empty Authorization token' do
+  it 'does not get user from empty Authorization token' do
     authentication.request.headers['Authorization'] = nil
     expect(authentication.current_user).to be_nil
   end
