@@ -39,7 +39,7 @@ RSpec.describe Order, type: :model do
       order1.placements = [Placement.new(product_id: product.id, quantity: 2),
                            Placement.new(product_id: product_keda.id, quantity: 1)]
       order1.set_total!
-      expect(order1.total).to eq(product.price * 2 + product_keda.price * 1)
+      expect(order1.total).to eq((product.price * 2) + (product_keda.price * 1))
     end
     # it "an order should command not too much product than available" do
     #   order.placements << Placement.new(product_id: product.id, quantity: (1 + product.quantity))
