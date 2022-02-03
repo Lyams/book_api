@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Product.delete_all
 User.delete_all
 
@@ -15,4 +17,4 @@ User.delete_all
     puts "Created a brand new product: #{product.title}"
   end
 end
-User.create!(email: "lyamsh@yandex.ru", password: 'local123')
+User.create!(email: 'lyamsh@yandex.ru', password: 'local123')

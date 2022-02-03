@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Order, type: :model do
@@ -10,7 +12,7 @@ RSpec.describe Order, type: :model do
   describe 'validation' do
     # it { is_expected.to validate_presence_of(:total)}
     # it { is_expected.to validate_numericality_of(:total).is_greater_than_or_equal_to(0) }
-    it "fabrica" do
+    it 'fabrica' do
       expect(order).to be_valid
     end
   end
@@ -22,21 +24,22 @@ RSpec.describe Order, type: :model do
   end
 
   describe 'database: column specification' do
-    it { should have_db_column(:id).of_type(:integer).with_options(primary: true, null: false) }
-    it { should have_db_column(:total).of_type(:decimal).with_options(null: false) }
-    it { should have_db_index(["user_id"]) }
-    it { should have_db_column(:user_id).of_type(:integer).with_options(null: false) }
+    it { is_expected.to have_db_column(:id).of_type(:integer).with_options(primary: true, null: false) }
+    it { is_expected.to have_db_column(:total).of_type(:decimal).with_options(null: false) }
+    it { is_expected.to have_db_index(['user_id']) }
+    it { is_expected.to have_db_column(:user_id).of_type(:integer).with_options(null: false) }
   end
 
-  context "Calculate total" do
+  context 'Calculate total' do
     let(:product) { create :product, user: order.user }
     let(:product_keda) { create :product_keda }
-    it "Should set total" do
-      order1 = Order.new(user: order.user)
+
+    it 'sets total' do
+      order1 = described_class.new(user: order.user)
       order1.placements = [Placement.new(product_id: product.id, quantity: 2),
                            Placement.new(product_id: product_keda.id, quantity: 1)]
       order1.set_total!
-      expect(order1.total).to eq (product.price * 2 + product_keda.price * 1)
+      expect(order1.total).to eq(product.price * 2 + product_keda.price * 1)
     end
     # it "an order should command not too much product than available" do
     #   order.placements << Placement.new(product_id: product.id, quantity: (1 + product.quantity))

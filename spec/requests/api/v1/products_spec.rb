@@ -1,39 +1,48 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-RSpec.describe "Api::V1::Products", type: :request do
-  describe "DELETE #destroy" do
+RSpec.describe 'Api::V1::Products', type: :request do
+  describe 'DELETE #destroy' do
     let(:user2) { create :user2 }
     let!(:product) { create(:product) }
-    it "should destroy a product" do
-      expect { delete api_v1_product_url(product),
-                      headers: { Authorization: JsonWebToken.encode(user_id: product.user_id) }
-      }.to change { Product.count }.by(-1)
+
+    it 'destroys a product' do
+      expect do
+        delete api_v1_product_url(product),
+               headers: { Authorization: JsonWebToken.encode(user_id: product.user_id) }
+      end.to change(Product, :count).by(-1)
       expect(response).to have_http_status(:no_content)
     end
-    it "should forbid destroy a product" do
-      expect { delete api_v1_product_url(product),
-                      headers: { Authorization: JsonWebToken.encode(user_id: user2.id) }
-      }.to change { Product.count }.by(0)
+
+    it 'forbids destroy a product' do
+      expect do
+        delete api_v1_product_url(product),
+               headers: { Authorization: JsonWebToken.encode(user_id: user2.id) }
+      end.to change(Product, :count).by(0)
       expect(response).to have_http_status(:forbidden)
     end
   end
 
-  describe "PATCH #update" do
+  describe 'PATCH #update' do
     let(:product) { create :product }
     let(:user2) { create :user2 }
-    it "should update a product" do
+
+    it 'updates a product' do
       patch api_v1_product_url(product),
             params: { product: { title: product.title.reverse } },
             headers: { Authorization: JsonWebToken.encode(user_id: product.user_id) }
       expect(response).to have_http_status(:success)
     end
-    it "should forbid update a product" do
+
+    it 'forbids update a product' do
       patch api_v1_product_url(product),
             params: { product: { title: product.title.reverse } },
             headers: { Authorization: JsonWebToken.encode(user_id: user2.id) }
       expect(response).to have_http_status(:forbidden)
     end
-    it "errors update product" do
+
+    it 'errors update product' do
       patch api_v1_product_url(product),
             params: { product: { title: nil } },
             headers: { Authorization: JsonWebToken.encode(user_id: product.user_id) }
@@ -41,10 +50,11 @@ RSpec.describe "Api::V1::Products", type: :request do
     end
   end
 
-  describe "POST #create" do
+  describe 'POST #create' do
     let(:user) { create :user }
     let(:product) { build :product }
-    it "should create a product" do
+
+    it 'creates a product' do
       post api_v1_products_url,
            params: { product: { title: product.title,
                                 price: product.price,
@@ -52,7 +62,8 @@ RSpec.describe "Api::V1::Products", type: :request do
            headers: { Authorization: JsonWebToken.encode(user_id: user.id) }
       expect(response).to have_http_status(:created)
     end
-    it "should errors create a product" do
+
+    it 'errorses create a product' do
       post api_v1_products_url,
            params: { product: { title: product.title,
                                 price: -1,
@@ -62,9 +73,10 @@ RSpec.describe "Api::V1::Products", type: :request do
     end
   end
 
-  describe "GET #show" do
+  describe 'GET #show' do
     let(:product) { create :product }
-    it "should show product" do
+
+    it 'shows product' do
       get api_v1_product_url(product)
       expect(response).to have_http_status(:success)
       json_response = JSON.parse(response.body, symbolize_names: true)
@@ -74,10 +86,11 @@ RSpec.describe "Api::V1::Products", type: :request do
     end
   end
 
-  describe "GET #index" do
+  describe 'GET #index' do
     let!(:product) { create :product }
     let!(:product_keda) { create :product_keda }
-    it "should show products" do
+
+    it 'shows products' do
       get api_v1_products_url
       expect(response).to have_http_status(:success)
       json_response = JSON.parse(response.body, symbolize_names: true)
@@ -86,28 +99,33 @@ RSpec.describe "Api::V1::Products", type: :request do
       expect(json_response.dig(:links, :prev)).not_to be_nil
       expect(json_response.dig(:links, :next)).not_to be_nil
     end
-    it "should filter products by name" do
+
+    it 'filters products by name' do
       expect(Product.filter_by_title('tv').sort).to eq([product, product_keda])
       expect(Product.filter_by_title('tv').count).to eq(2)
       expect(Product.filter_by_title('Mnogo vsyakoy lagi, i dage ligi').count).to eq(0)
     end
-    it "should filter products by price" do
+
+    it 'filters products by price' do
       expect(Product.above_or_equal_to_price(6000.0)).to eq([product])
       expect(Product.above_or_equal_to_price(0.0).count).to eq(Product.count)
     end
-    it "should filter products by price lower" do
+
+    it 'filters products by price lower' do
       expect(Product.below_or_equal_to_price(6000.0)).to eq([product_keda])
-      expect(Product.below_or_equal_to_price(1000000000.0).count).to eq(Product.count)
+      expect(Product.below_or_equal_to_price(1_000_000_000.0).count).to eq(Product.count)
     end
-    it "should sort product by most recent" do
+
+    it 'sorts product by most recent' do
       product.touch
       expect(Product.recent.to_a).to eq([product_keda, product])
     end
-    it "search hash" do
-      search_hash_empty = { keyword: 'tv', min_price: 1000000.0 }
+
+    it 'search hash' do
+      search_hash_empty = { keyword: 'tv', min_price: 1_000_000.0 }
       search_hash = { keyword: 'tv', min_price: 100.0 }
-      search_hash_keda = { keyword: 'tv', min_price: 100.0, max_price: 10000.0 }
-      search_hash_product = { keyword: 'tv', min_price: 10000.0 }
+      search_hash_keda = { keyword: 'tv', min_price: 100.0, max_price: 10_000.0 }
+      search_hash_product = { keyword: 'tv', min_price: 10_000.0 }
       expect(Product.search(search_hash_empty)).to be_empty
       expect(Product.search(search_hash_keda)).to eq([product_keda])
       expect(Product.search(search_hash_product)).to eq([product])

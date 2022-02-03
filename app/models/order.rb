@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Order < ApplicationRecord
   include ActiveModel::Validations
   before_validation :set_total!
@@ -8,8 +10,9 @@ class Order < ApplicationRecord
   has_many :products, through: :placements
 
   def set_total!
-    self.total = self.placements.map { |placement|
-      placement.product.price * placement.quantity }.sum
+    self.total = placements.map do |placement|
+      placement.product.price * placement.quantity
+    end.sum
   end
 
   def build_placements_with_product_ids_and_quantities(product_ids_and_quantities)
