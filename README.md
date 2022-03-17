@@ -1,14 +1,16 @@
 [![CI](https://github.com/Lyams/book_api/actions/workflows/ci.yml/badge.svg)](https://github.com/Lyams/book_api/actions/workflows/ci.yml)
 [![Test Coverage](https://codecov.io/gh/lyams/book_api/graph/badge.svg)](https://codecov.io/gh/lyams/book_api)
 # README
-В процессе чтения книги Api Rails 6 by Alexandre Rousesau.
-По книге в основном иду в этом проекте (но Rails 7 и Ruby 3), но с Rspec (в книге немного минитеста) и
-больше тестов, ограничений в схеме БД, posgresql, и валидаций.
-Кроме того прикрутил CI и Codecov.
-Добавил GoodJob для отложенной асинхронной отправки писем.
-Добавил rspec-openapi для генерации документации.
+Сделан в процессе чтения книги Api Rails 6 by Alexandre Rousesau и по её мотивам.
+По книге в основном иду в этом проекте. Вместо RoR 6 и Ruby 2 я использовал Rails 7 и Ruby 3.
+В книге использовался Minitest с небольшим количеством тестов - я использовал Rspec с большим количеством тестов, ограничений в схеме БД, СУБД posgresql, и большего количества валидаций в схеме.
 
-UPD.:Заменил простую какбы валидацию email валидацией с помощью valid_email2.
+Что еще не по книге:
+Вместо дефолтного id настроил по-умолчанию uuid.
+Кроме того прикрутил CI и Codecov.
+Добавил GoodJob для отложенной асинхронной отправки писем и open_mailer для просмотра потсылаемого письма в development-окружении.
+Добавил rspec-openapi для генерации документации.
+Добавил полноценную валидацию с помощью valid_email2 - видимо лучше только отправка письма с ответом на него.
 Добавил в CI линтер - Rubocop и утилиты для анализа безопастности - brakeman и bundle-audit.
 
 <!--
