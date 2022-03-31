@@ -11,7 +11,7 @@ gem 'fast_jsonapi', '~> 1.5'
 gem 'good_job'
 gem 'kaminari', '~> 1.2', '>= 1.2.2'
 gem 'pg'
-gem 'puma', '~> 5.0'
+gem 'puma', '~> 5.6'
 gem 'rails', '~> 7.0.1'
 gem 'valid_email2', '~> 4.0', '>= 4.0.1'
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
