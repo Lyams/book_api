@@ -1,4 +1,4 @@
-"careful-review":
+careful-review:
 - any: [ "terra", '*harot*']
 
 repo:
