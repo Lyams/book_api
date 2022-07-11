@@ -1,2 +1,5 @@
 "careful-review":
 - any: [ "terra", '*harot*']
+
+repo:
+- '*'
