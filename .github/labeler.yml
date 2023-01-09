@@ -1,5 +1,5 @@
 "careful-review":
-- 'terra'
+- any: [ 'terra', '*harot*']
 
 repo7:
 - '*'
