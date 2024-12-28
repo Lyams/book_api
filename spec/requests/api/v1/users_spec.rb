@@ -50,8 +50,8 @@ RSpec.describe 'Api::V1::Users', type: :request do
 
     it 'updates user email' do
       patch api_v1_user_url(user), params: {
-        user: { email: "AV#{user.email}", password: user.password }
-      },
+                                     user: { email: "AV#{user.email}", password: user.password }
+                                   },
                                    headers: { Authorization: JsonWebToken.encode(user_id: user.id) }
       expect(response.status).to eq(200)
     end
@@ -65,8 +65,8 @@ RSpec.describe 'Api::V1::Users', type: :request do
 
     it 'does not update user with invalide email' do
       patch api_v1_user_url(user), params: {
-        user: { email: 'aaa.asss', password: '234' }
-      },
+                                     user: { email: 'aaa.asss', password: '234' }
+                                   },
                                    headers: { Authorization: JsonWebToken.encode(user_id: user.id) }
       expect(response.status).to eq(422)
     end

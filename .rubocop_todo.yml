@@ -68,8 +68,6 @@ Layout/LineLength:
 
 AllCops:
   NewCops: enable
-Gemspec/DateAssignment: # new in 1.10
-  Enabled: true
 Gemspec/RequireMFA: # new in 1.23
   Enabled: true
 Layout/LineEndStringConcatenationIndentation: # new in 1.18
