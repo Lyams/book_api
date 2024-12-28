@@ -57,8 +57,9 @@ group :development do
 end
 
 group :test do
-  gem 'codecov'
   gem 'database_cleaner-active_record'
   gem 'rspec-openapi', '~> 0.4.1'
   gem 'shoulda-matchers', '~> 5.1'
+  gem 'simplecov', require: false
+  gem 'simplecov-cobertura', require: false
 end
